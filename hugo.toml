@@ -8,15 +8,21 @@ theme = "github-style"
 
 [params]
   author = "Gabe"
+  description = "SWE | DevOps | CyberSec"
+  userStatusEmoji = "☕"
   email = "gabriel.lafayette@proton.me"
+  location = "Porto Alegre, Brazil"
+
   github = "lafayettegabe"
   bluesky = "lafayettegabe"
   instagram = "lafayettegabe"
-  description = "SWE | DevOps | CyberSec"
+
   avatar = "https://avatars.githubusercontent.com/u/e?email=gabriel.lafayette%40proton.me&s=400"
   headerIcon = "https://avatars.githubusercontent.com/u/e?email=gabriel.lafayette%40proton.me&s=400"
   favicon = "https://github.githubassets.com/favicons/favicon.svg"
 
+  rss = true
+  lastmod = true
   enableSearch = true
   enableGitalk = true
   
