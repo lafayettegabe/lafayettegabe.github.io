@@ -40,7 +40,7 @@ theme = "github-style"
     distractionFreeMode = false
 
 [outputs]
-  home = ["html", "json"]
+  home = ["html", "RSS", "json"]
 
 [outputFormats.json]
   mediaType = "application/json"
