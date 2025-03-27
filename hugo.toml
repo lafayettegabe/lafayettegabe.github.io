@@ -2,6 +2,8 @@ baseURL = 'https://lafayettegabe.github.io'
 languageCode = 'en-us'
 title = 'Gabe'
 theme = "github-style"
+pygmentsCodeFences = true
+pygmentsUseClasses = true
 
 [frontmatter]
   lastmod = ["lastmod", ":fileModTime", ":default"]
