@@ -1,0 +1,42 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+theme = "github-style"
+
+[frontmatter]
+  lastmod = ["lastmod", ":fileModTime", ":default"]
+
+[params]
+  author = "Gabe"
+  email = "gabriel.lafayette@proton.me"
+  github = "lafayettegabe"
+  bluesky = "lafayettegabe"
+  instagram = "lafayettegabe"
+  description = "In solitude, where we are least alone."
+  avatar = "https://avatars.githubusercontent.com/u/e?email=gabriel.lafayette%40proton.me&s=400"
+  headerIcon = "https://avatars.githubusercontent.com/u/e?email=gabriel.lafayette%40proton.me&s=400"
+  favicon = "https://github.githubassets.com/favicons/favicon.svg"
+
+  enableSearch = true
+  enableGitalk = true
+  
+  [params.gitalk]
+    clientID =  "Ov23lio0i1421ouS6dfx" 
+    clientSecret = "501723fd5356ef0218cdd6ff123312771fe92920"
+    repo = "lafayettegabe.github.io"
+    owner = "lafayettegabe"
+    admin = "lafayettegabe"
+    id = "location.pathname"
+    labels = "gitalk"
+    perPage = 30
+    pagerDirection = "last"
+    createIssueManually = false
+    distractionFreeMode = false
+
+[outputs]
+  home = ["html", "json"]
+
+[outputFormats.json]
+  mediaType = "application/json"
+  baseName = "index"
+  isPlainText = false
