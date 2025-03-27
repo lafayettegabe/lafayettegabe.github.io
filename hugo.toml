@@ -1,6 +1,6 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://lafayettegabe.github.io'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Gabe'
 theme = "github-style"
 
 [frontmatter]
@@ -21,13 +21,13 @@ theme = "github-style"
   enableGitalk = true
   
   [params.gitalk]
-    clientID =  "Ov23lio0i1421ouS6dfx" 
-    clientSecret = "501723fd5356ef0218cdd6ff123312771fe92920"
+    clientID =  "GITALK_CLIENT_ID" 
+    clientSecret = "GITALK_CLIENT_SECRET"
     repo = "lafayettegabe.github.io"
     owner = "lafayettegabe"
-    admin = "lafayettegabe"
+    admin = ["lafayettegabe"]  
     id = "location.pathname"
-    labels = "gitalk"
+    labels = ["gitalk"]
     perPage = 30
     pagerDirection = "last"
     createIssueManually = false

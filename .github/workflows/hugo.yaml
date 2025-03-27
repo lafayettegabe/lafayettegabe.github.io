@@ -1,86 +1,101 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy Hugo site to Pages
+name: Deploy Hugo Site to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [main]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Default to bash
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Build job
   build:
+    name: Build Site
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.145.0
-      HUGO_ENVIRONMENT: production
+      HUGO_ENV: production
       TZ: America/Los_Angeles
+      GITALK_CLIENT_ID: ${{ secrets.GITALK_CLIENT_ID }}
+      GITALK_CLIENT_SECRET: ${{ secrets.GITALK_CLIENT_SECRET }}
+
     steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
-      - name: Checkout
+      # ========== SETUP ==========
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Setup Pages
+
+      - name: Install Hugo
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb \
+            https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
+          sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+      - name: Install Sass
+        run: sudo snap install dart-sass
+
+      # ========== CONFIGURATION ==========
+      - name: Inject Gitalk Secrets
+        run: |
+          sed -i "s/GITALK_CLIENT_ID/${GITALK_CLIENT_ID}/g" config.toml
+          sed -i "s/GITALK_CLIENT_SECRET/${GITALK_CLIENT_SECRET}/g" config.toml
+
+      - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      - name: Cache Restore
-        id: cache-restore
+
+      # ========== DEPENDENCIES ==========
+      - name: Install Node.js modules
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          fi
+
+      # ========== CACHE MANAGEMENT ==========
+      - name: Restore build cache
         uses: actions/cache/restore@v4
+        id: cache-restore
         with:
-          path: |
-            ${{ runner.temp }}/hugo_cache
+          path: ${{ runner.temp }}/hugo_cache
           key: hugo-${{ github.run_id }}
           restore-keys: hugo-
-      - name: Build with Hugo
+
+      # ========== BUILD ==========
+      - name: Build site
         run: |
           hugo \
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/" \
             --cacheDir "${{ runner.temp }}/hugo_cache"
-      - name: Cache Save
-        id: cache-save
+
+      - name: Save build cache
         uses: actions/cache/save@v4
+        id: cache-save
         with:
-          path: |
-            ${{ runner.temp }}/hugo_cache
+          path: ${{ runner.temp }}/hugo_cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
-      - name: Upload artifact
+
+      # ========== ARTIFACT ==========
+      - name: Upload deployment artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
-  # Deployment job
   deploy:
+    name: Deploy Site
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
