@@ -47,10 +47,10 @@ jobs:
         run: sudo snap install dart-sass
 
       # ========== CONFIGURATION ==========
-      - name: Inject Gitalk Secrets
+      - name: Inject Secrets into Config
         run: |
-          sed -i "s/GITALK_CLIENT_ID/${GITALK_CLIENT_ID}/g" config.toml
-          sed -i "s/GITALK_CLIENT_SECRET/${GITALK_CLIENT_SECRET}/g" config.toml
+          sed -i "s/GITALK_CLIENT_ID/${GITALK_CLIENT_ID}/g" hugo.toml
+          sed -i "s/GITALK_CLIENT_SECRET/${GITALK_CLIENT_SECRET}/g" hugo.toml
 
       - name: Configure Pages
         id: pages
