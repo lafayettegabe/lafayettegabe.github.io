@@ -1,0 +1,24 @@
+name: Sync Profile README to Hugo
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Hugo site repo
+        uses: actions/checkout@v4
+
+      - name: Fetch and update README
+        run: |
+          curl -s https://raw.githubusercontent.com/lafayettegabe/lafayettegabe/main/README.md > content/readme.md
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "gabe"
+          git config --global user.email "gabriel.antunessoares@gmail.com"
+          git add content/readme.md
+          git commit -m "Update readme" || echo "No changes to commit"
+          git push
