@@ -1,7 +1,11 @@
 name: Sync Profile README to Hugo
 on:
-  schedule: [{ cron: "*/5 * * * *" }]
+  schedule:
+    - cron: "*/5 * * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
@@ -9,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Hugo site repo
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Fetch and update README
         run: |
@@ -19,5 +25,5 @@ jobs:
           git config --global user.name "gabe"
           git config --global user.email "gabriel.antunessoares@gmail.com"
           git add content/readme.md
-          git commit -m "Update readme" || echo "No changes to commit"
-          git push
+          git diff --staged --quiet || git commit -m "Update readme"
+          git push origin main
