@@ -1,7 +1,7 @@
 name: Sync Profile README to Hugo
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 permissions:
