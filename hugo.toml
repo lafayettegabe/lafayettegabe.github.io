@@ -5,6 +5,9 @@ theme = "github-style"
 pygmentsCodeFences = true
 pygmentsUseClasses = true
 
+[markup.goldmark.renderer]
+  unsafe = true
+
 [frontmatter]
   lastmod = ["lastmod", ":fileModTime", ":default"]
 
