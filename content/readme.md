@@ -36,6 +36,14 @@
 
 ##
 
+### 📝 Latest Blog Posts
+
+<!--START_SECTION:blog-posts-->
+-   2025-03-27 [Lorem Markdownum](http://lafayettegabe.me/post/lorem_markdownum/)
+<!--END_SECTION:blog-posts-->
+
+##
+
 ### 🛠️ Active Projects
 
 _Rust-based adversarial tooling for security research_
